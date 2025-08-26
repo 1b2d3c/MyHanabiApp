@@ -1,0 +1,37 @@
+<!-- fireworks/templates/fireworks/ff_create_post.html -->
+{% extends 'fireworks/base.html' %}
+{% load static %}
+
+{% block title %}新しい投稿を作成 - Firework App{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-extrabold mb-8 text-white text-center">新しい投稿を作成</h1>
+
+    <div class="max-w-xl mx-auto bg-gray-800 rounded-lg shadow-xl p-8">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-6">
+                <label for="{{ form.title.id_for_label }}" class="block text-gray-300 font-bold mb-2">タイトル</label>
+                {{ form.title }}
+            </div>
+            <div class="mb-6">
+                <label for="{{ form.description.id_for_label }}" class="block text-gray-300 font-bold mb-2">説明</label>
+                {{ form.description }}
+            </div>
+            <div class="mb-6">
+                <label for="{{ form.post_type.id_for_label }}" class="block text-gray-300 font-bold mb-2">投稿タイプ</label>
+                {{ form.post_type }}
+            </div>
+            <div class="mb-6">
+                <label for="{{ form.file.id_for_label }}" class="block text-gray-300 font-bold mb-2">ファイル (写真/動画/イラスト)</label>
+                {{ form.file }}
+            </div>
+
+            <div class="flex justify-center mt-8">
+                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                    投稿
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d0d2b; /* 夜空の背景色 */
+    color: #e0e0e0;
+}
+.dropdown-menu {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-5px);
+    transition: all 0.2s ease-in-out;
+}
+/* アクティブなときに表示するスタイル */
+.dropdown-menu.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.top-page {
+    background-color: #0d0d2b;
+    font-family: "Caveat", cursive;
+    font-size: 169px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+    /* --- 背景画像の設定 --- */
+    background-image: url("../img/hanabitop.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+
+    /* --- 画像が読み込まれるまでの間のための設定 --- */
+    
+    /* 画像が表示されるまでの背景色（画像の色味に合わせると自然です） */
+    background-color: #333; /* 暗めのグレー */
+}

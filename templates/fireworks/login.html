@@ -1,0 +1,28 @@
+{% extends 'fireworks/base.html' %}
+
+{% block title %}ログイン - Firework App{% endblock %}
+
+{% block content %}
+    <div class="max-w-md mx-auto bg-gray-800 rounded-lg shadow-xl p-8 mt-10">
+        <h1 class="text-3xl font-bold text-white text-center mb-6">ログイン</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                    <span class="font-medium">ユーザー名またはパスワードが正しくありません。</span>
+                </div>
+            {% endif %}
+            <div class="mb-4">
+                <label for="{{ form.username.id_for_label }}" class="block text-gray-400 mb-1">ユーザー名</label>
+                <input type="text" name="username" id="{{ form.username.id_for_label }}" class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500" required>
+            </div>
+            <div class="mb-4">
+                <label for="{{ form.password.id_for_label }}" class="block text-gray-400 mb-1">パスワード</label>
+                <input type="password" name="password" id="{{ form.password.id_for_label }}" class="w-full px-4 py-2 rounded-md bg-gray-700 text-white border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full transition-colors mt-4">
+                ログイン
+            </button>
+        </form>
+    </div>
+{% endblock %}

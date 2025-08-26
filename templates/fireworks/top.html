@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hanabi</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!--フォント-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+</head>
+<body class="top-page">
+    <div class="top-container">
+        <h1 class="top-title">My Hanabi</h1>
+    </div>
+    <script>
+        document.querySelector('body').addEventListener('click', function() {
+            window.location.href = "{% url 'index' %}";
+        });
+    </script>
+</body>
+</html>

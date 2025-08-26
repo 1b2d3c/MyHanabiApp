@@ -1,0 +1,99 @@
+<!-- fireworks/templates/fireworks/base.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Firework App{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS from static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+</head>
+<body>
+    <header class="bg-gray-900 text-white p-4 shadow-lg fixed w-full z-10">
+        <nav class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'index' %}" class="text-2xl font-bold tracking-widest text-pink-400 hover:text-pink-300 transition-colors">
+                My Hanabi
+            </a>
+            <div class="space-x-4 flex items-center">
+                <a href="{% url 'index' %}" class="text-white hover:text-gray-300 transition-colors font-medium">投稿一覧</a>
+                {% if user.is_authenticated %}
+                    <div class="relative group">
+                        <button id="post-menu-button" class="text-white hover:text-gray-300 transition-colors font-medium">
+                            投稿する
+                        </button>
+                        <div id="post-menu" class="hidden group-hover:block absolute right-0 mt-0 w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                            <a href="{% url 'create_firework' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">花火プログラムを作る</a>
+                            <a href="{% url 'create_post' %}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">写真・動画を投稿する</a>
+                        </div>
+                    </div>
+                    <a href="{% url 'mypage' %}" class="text-white hover:text-gray-300 transition-colors font-medium">マイページ</a>
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                            ログアウト
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'signup' %}" class="text-white hover:text-gray-300 transition-colors font-medium">新規登録</a>
+                    <a href="{% url 'login' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition-colors">
+                        ログイン
+                    </a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="pt-20 pb-10 min-h-screen">
+        <div class="container mx-auto px-4">
+            {% if messages %}
+                <ul class="mb-4">
+                    {% for message in messages %}
+                        <li class="p-4 rounded-md shadow-md {% if message.tags %}bg-green-500 text-white{% endif %}">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 text-center p-4">
+        &copy; 2025 TechJam Team-A MyHanabiApp
+    </footer>
+    
+    <!-- 花火再生モーダル -->
+    <div id="playback-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-75">
+        <div class="relative w-full max-w-4xl max-h-full p-4">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-white text-3xl font-bold hover:text-gray-400">&times;</button>
+            <h2 id="playback-title" class="text-2xl font-bold text-white text-center mb-4"></h2>
+            <canvas id="playbackCanvas" class="w-full h-[600px] bg-gray-900 rounded-md border border-gray-700"></canvas>
+            <div class="flex justify-center mt-4 space-x-4">
+                <button id="play-button" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                    再生
+                </button>
+                <button id="stop-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                    停止
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 画像・動画拡大用モーダル -->
+    <div id="media-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-80">
+      <div class="relative max-w-4xl max-h-full p-4">
+        <button id="media-close-btn" class="absolute top-4 right-4 text-white text-3xl font-bold hover:text-gray-400">&times;</button>
+        <img id="media-modal-img" src="" alt="" class="max-w-full max-h-[80vh] hidden rounded-md" />
+        <video id="media-modal-video" controls class="max-w-full max-h-[80vh] hidden rounded-md" autoplay></video>
+      </div>
+    </div>
+
+    
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

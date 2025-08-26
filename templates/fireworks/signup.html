@@ -1,0 +1,26 @@
+{% extends 'fireworks/base.html' %}
+
+{% block title %}新規登録 - Firework App{% endblock %}
+
+{% block content %}
+    <div class="max-w-md mx-auto bg-gray-800 rounded-lg shadow-xl p-8 mt-10">
+        <h1 class="text-3xl font-bold text-white text-center mb-6">新規登録</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-4">
+                    <label for="{{ field.id_for_label }}" class="block text-gray-400 mb-1">{{ field.label }}</label>
+                    <div class="shadow-sm rounded-md overflow-hidden">
+                        {{ field }}
+                    </div>
+                    {% for error in field.errors %}
+                        <p class="text-red-400 text-sm mt-1">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-full transition-colors mt-4">
+                登録
+            </button>
+        </form>
+    </div>
+{% endblock %}

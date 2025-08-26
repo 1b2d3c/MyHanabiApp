@@ -1,0 +1,39 @@
+<!-- fireworks_app/templates/fireworks/ff_create.html -->
+{% extends 'fireworks/base.html' %}
+{% load static %}
+
+{% block title %}花火を作る - Firework App{% endblock %}
+
+{% block content %}
+    <h1 class="text-4xl font-extrabold mb-8 text-white text-center">花火プログラムを作成</h1>
+
+    <div class="bg-gray-800 rounded-lg shadow-xl p-8 mb-8">
+        <canvas id="fireworksCanvas" class="w-full h-[600px] bg-gray-900 rounded-md mb-4 border border-gray-700"></canvas>
+        
+        <div class="flex justify-center mt-6 mb-6 space-x-4">
+            
+            <button id="runButton" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                実行
+            </button>
+            <button id="saveButton" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                保存
+            </button>
+        </div>
+
+        <div class="text-white">実行から発射までの秒数(1000で1秒) | 形 | 色 | 音 | 横位置(左0/右100) | 縦位置(上0/下100) | 入力欄(文字/絵文字)</div>
+
+        <div id="fireworkControls" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- JavaScriptによって動的に生成される花火のUI要素 -->
+        </div>
+        <div class="flex justify-center mt-6 mb-6 space-x-4">
+            <button id="addFireworkButton" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                    花火を追加
+            </button>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/fireworks.js' %}"></script>
+{% endblock %}

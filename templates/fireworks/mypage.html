@@ -1,0 +1,103 @@
+{% extends 'fireworks/base.html' %}
+{% load static %}
+
+{% block title%}マイページ - My Hanabi App{% endblock %}
+
+{% block content %}
+<h1 class="text-4xl font-extrabold mb-8 text-white text-center">マイページ</h1>
+
+<div class="bg-gray-800 rounded-lg shadow-xl p-8 mb-8">
+  <h2 class="text-2xl font-bold mb-4 text-white">ユーザー情報</h2>
+  <p class="text-gray-400">
+    ユーザー名: <span class="text-white">{{ user.username }}</span>
+  </p>
+  <p class="text-gray-400">
+    登録日:
+    <span class="text-white">{{ user.date_joined|date:"Y年m月d日" }}</span>
+  </p>
+</div>
+
+<div class="bg-gray-800 rounded-lg shadow-xl p-8">
+  <h2 class="text-2xl font-bold mb-4 text-white">あなたの投稿</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for post in user_posts %}
+    <div class="bg-gray-700 rounded-lg shadow-md overflow-hidden">
+      {% if post.post_type == 'program' %}
+      <div
+        class="w-full h-48 bg-gray-900 flex items-center justify-center text-gray-500 relative"
+      >
+        <span
+          class="absolute text-white top-2 left-2 px-2 py-1 bg-pink-500 rounded-md text-xs font-bold"
+          >プログラム</span
+        >
+        <button
+          class="play-button absolute"
+          data-program-id="{{ post.firework_program.id }}"
+        >
+          <svg
+            class="h-12 w-12 text-pink-400 hover:text-pink-300 transition-colors"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3.444-2a1 1 0 000-1.664l-3.444-2z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+      {% elif post.file %}
+      {% if post.post_type == 'image' or post.post_type == 'illustration' %}
+      <img
+        src="{{ post.file.url }}"
+        alt="{{ post.title }}"
+        class="w-full h-48 object-cover"
+      />
+      {% elif post.post_type == 'video' %}
+      <video
+        src="{{ post.file.url }}"
+        controls
+        class="w-full h-48 object-cover"
+      ></video>
+      {% endif %}
+      {% else %}
+      <div
+        class="w-full h-48 bg-gray-900 flex items-center justify-center text-gray-500"
+      >
+        コンテンツがありません
+      </div>
+      {% endif %}
+
+      <div class="p-4">
+        <h3 class="text-xl font-bold text-white">{{ post.title }}</h3>
+        <p class="text-gray-400 text-sm">{{ post.created_at|date:"Y/m/d" }}</p>
+
+        <form
+          action="{% url 'delete_post' post.pk %}"
+          method="post"
+          class="mt-2"
+        >
+          {% csrf_token %}
+          <button
+            type="submit"
+            onclick="return confirm('本当にこの投稿を削除しますか？');"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm"
+          >
+            削除
+          </button>
+        </form>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-gray-400 col-span-full">
+      まだ投稿がありません。
+    </p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/player.js' %}"></script>
+{% endblock %}
